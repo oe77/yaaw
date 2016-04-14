@@ -86,8 +86,8 @@ var YAAW = (function() {
       $("#btnSelectPaused").live("click", function() {
         YAAW.tasks.selectPaused();
       });
-      $("#btnSelectStopped").live("click", function() {
-        YAAW.tasks.selectStopped();
+      $("#btnSelectStoped").live("click", function() {
+        YAAW.tasks.selectStoped();
       });
       $("#btnStartAll").live("click", function() {
         ARIA2.unpause_all();
@@ -167,7 +167,7 @@ var YAAW = (function() {
           indexes.push(n.getAttribute("data-index"));
         });
         if (indexes.length == 0) {
-          ARIA2.main_alert("alert-error", "At least one file should be selected. Or just stop the task.", 5000);
+          ARIA2.main_alert("alert-error", "至少有一个文件应该被选中或者只是停止此任务", 5000);
         } else {
           var options = {
             "select-file": indexes.join(","),
@@ -242,7 +242,7 @@ var YAAW = (function() {
         }
       } else {
         $("#torrent-up-input").remove();
-        $("#torrent-up-btn").addClass("disabled").tooltip({title: "File API is Not Supported."});
+        $("#torrent-up-btn").addClass("disabled").tooltip({title: "当前浏览器不支持 File API."});
       }
 
       if (window.applicationCache) {
@@ -443,37 +443,37 @@ var YAAW = (function() {
 
         error_msg: function() {
           var error_code_map = {
-            0: "",
-            1: "unknown error occurred.",
-            2: "time out occurred.",
-            3: "resource was not found.",
-            4: "resource was not found. See --max-file-not-found option.",
-            5: "resource was not found. See --lowest-speed-limit option.",
-            6: "network problem occurred.",
-            7: "unfinished download.",
-            8: "remote server did not support resume when resume was required to complete download.",
-            9: "there was not enough disk space available.",
-            10: "piece length was different from one in .aria2 control file. See --allow-piece-length-change option.",
-            11: "aria2 was downloading same file at that moment.",
-            12: "aria2 was downloading same info hash torrent at that moment.",
-            13: "file already existed. See --allow-overwrite option.",
-            14: "renaming file failed. See --auto-file-renaming option.",
-            15: "aria2 could not open existing file.",
-            16: "aria2 could not create new file or truncate existing file.",
-            17: "I/O error occurred.",
-            18: "aria2 could not create directory.",
-            19: "name resolution failed.",
-            20: "could not parse Metalink document.",
-            21: "FTP command failed.",
-            22: "HTTP response header was bad or unexpected.",
-            23: "too many redirections occurred.",
-            24: "HTTP authorization failed.",
-            25: "aria2 could not parse bencoded file(usually .torrent file).",
-            26: ".torrent file was corrupted or missing information that aria2 needed.",
-            27: "Magnet URI was bad.",
-            28: "bad/unrecognized option was given or unexpected option argument was given.",
-            29: "the remote server was unable to handle the request due to a temporary overloading or maintenance.",
-            30: "aria2 could not parse JSON-RPC request.",
+						0: "",
+						1: "发生未知错误",
+						2: "操作超时.",
+						3: "资源未找到.",
+						4: "资源未找到. 参见 --max-file-not-found 选项.",
+						5: "资源未找到. 参见 --lowest-speed-limit 选项.",
+						6: "网络出现问题.",
+						7: "未完成下载.",
+						8: "远程服务器不支持断点续传.",
+						9: "磁盘空间不足.",
+						10: "分块大小与.aria2文件中不同. 参见 --allow-piece-length-change 选项.",
+						11: "Aria2 正在下载相同的文件.",
+						12: "Aria2 正在下载相同的BT任务.",
+						13: "文件已存在. 参见 --allow-overwrite 选项.",
+						14: "文件重命名失败. 参见 --auto-file-renaming 选项.",
+						15: "Aria2 无法打开当前文件.",
+						16: "Aria2 无法创建新文件或截断现有文件.",
+						17: "发生 I/O 错误.",
+						18: "Aria2 无法创建文件夹.",
+						19: "名称解析失败.",
+						20: "无法解析的 Metalink 文件.",
+						21: "FTP 命令执行失败.",
+						22: "HTTP 请求头错误或者无效.",
+						23: "重定向过多.",
+						24: "HTTP 授权失败.",
+						25: "Aria2 无法解析 Bencoded 编码文件 (通常是 BT种子文件).",
+						26: "BT种子文件损坏或者 Aria2无法读取需要的信息.",
+						27: "损坏的磁力链接.",
+						28: "错误的参数或者无法识别的选项.",
+						29: "因暂时超载或维护, 远程服务器无法处理请求.",
+						30: "Aria2 无法解析 JSON-RPC 请求.",
           };
           return function(text) {
             return error_code_map[text] || "";
@@ -482,12 +482,12 @@ var YAAW = (function() {
 
         status_icon: function() {
           var status_icon_map = {
-            active: "icon-download-alt",
-            waiting: "icon-time",
-            paused: "icon-pause",
-            error: "icon-remove",
-            complete: "icon-ok",
-            removed: "icon-trash",
+            active: "下载中",
+            waiting: "等待中",
+            paused: "已暂停",
+            error: "下载出错",
+            complete: "下载完成",
+            removed: "已删除",
           };
           return function(text) {
             return status_icon_map[text] || "";
@@ -525,7 +525,7 @@ var YAAW = (function() {
       },
 
       clean: function() {
-        $("#uri-input").attr("placeholder", "HTTP, FTP or Magnet");
+        $("#uri-input").attr("placeholder", "输入HTTP, FTP 或 Magnet 链接");
         $("#add-task-modal .input-clear").val("");
         $("#add-task-alert").hide();
         torrent_file = null;
@@ -632,10 +632,10 @@ var YAAW = (function() {
         this.check_select();
       },
 
-      selectStopped: function() {
+      selectStoped: function() {
         var _this = this;
         this.unSelectAll(true);
-        $("#stopped-tasks-table .task").each(function(i, n) {
+        $("#stoped-tasks-table .task").each(function(i, n) {
           _this.select(n);
         });
         this.check_select();
@@ -661,17 +661,17 @@ var YAAW = (function() {
 
       unpause: function() {
         var gids = new Array();
-        var stopped_gids = new Array();
+        var stoped_gids = new Array();
         $(".tasks-table .task.selected").each(function(i, n) {
           var status = n.getAttribute("data-status");
           if (status == "paused") {
             gids.push(n.getAttribute("data-gid"));
           } else if ("removed/error".indexOf(status) != -1) {
-            stopped_gids.push(n.getAttribute("data-gid"));
+            stoped_gids.push(n.getAttribute("data-gid"));
           }
         });
         if (gids.length) ARIA2.unpause(gids);
-        if (stopped_gids.length) ARIA2.restart_task(stopped_gids);
+        if (stoped_gids.length) ARIA2.restart_task(stoped_gids);
       },
 
       remove: function() {
@@ -691,7 +691,7 @@ var YAAW = (function() {
       info: function(task) {
         task.addClass("info-open");
         task.after(YAAW.tpl.info_box({gid: task.attr("data-gid")}));
-        if (task.parents("#stopped-tasks-table").length) {
+        if (task.parents("#stoped-tasks-table").length) {
           $("#ib-options-a").hide();
         }
         ARIA2.get_status(task.attr("data-gid"));
@@ -729,7 +729,7 @@ var YAAW = (function() {
             $("#task-contextmenu .task-move").show();
           else
             $("#task-contextmenu .task-move").hide();
-          if (status == "removed" || status == "complete" || status == "error") {
+          if (status == "removed" || status == "completed" || status == "error") {
             $(".task-restart").show();
             $(".task-start").hide();
           } else {
@@ -780,14 +780,7 @@ var YAAW = (function() {
       },
 
       remove: function() {
-        if (on_gid) {
-          var status = $("#task-gid-"+on_gid).attr("data-status");
-          if (status == "removed" || status == "complete" || status == "error") {
-            ARIA2.remove_result(on_gid);
-          } else {
-            ARIA2.remove(on_gid);
-          }
-        }
+        if (on_gid) ARIA2.remove(on_gid);
         on_gid = null;
       },
 
